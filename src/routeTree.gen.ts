@@ -15,7 +15,7 @@ import { Route as SigninRouteImport } from './routes/signin'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedHabitsRouteImport } from './routes/_authenticated/habits'
-import { Route as AuthenticatedHabitsIdRouteImport } from './routes/_authenticated/habits.$id'
+import { Route as AuthenticatedHabitsIdRouteImport } from './routes/_authenticated/habits_.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -47,9 +47,9 @@ const AuthenticatedHabitsRoute = AuthenticatedHabitsRouteImport.update({
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedHabitsIdRoute = AuthenticatedHabitsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AuthenticatedHabitsRoute,
+  id: '/habits_/$id',
+  path: '/habits/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -57,7 +57,7 @@ export interface FileRoutesByFullPath {
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/community': typeof AuthenticatedCommunityRoute
-  '/habits': typeof AuthenticatedHabitsRouteWithChildren
+  '/habits': typeof AuthenticatedHabitsRoute
   '/habits/$id': typeof AuthenticatedHabitsIdRoute
 }
 export interface FileRoutesByTo {
@@ -65,7 +65,7 @@ export interface FileRoutesByTo {
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/community': typeof AuthenticatedCommunityRoute
-  '/habits': typeof AuthenticatedHabitsRouteWithChildren
+  '/habits': typeof AuthenticatedHabitsRoute
   '/habits/$id': typeof AuthenticatedHabitsIdRoute
 }
 export interface FileRoutesById {
@@ -75,8 +75,8 @@ export interface FileRoutesById {
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/_authenticated/community': typeof AuthenticatedCommunityRoute
-  '/_authenticated/habits': typeof AuthenticatedHabitsRouteWithChildren
-  '/_authenticated/habits/$id': typeof AuthenticatedHabitsIdRoute
+  '/_authenticated/habits': typeof AuthenticatedHabitsRoute
+  '/_authenticated/habits_/$id': typeof AuthenticatedHabitsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -92,7 +92,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/_authenticated/community'
     | '/_authenticated/habits'
-    | '/_authenticated/habits/$id'
+    | '/_authenticated/habits_/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -146,35 +146,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHabitsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/habits/$id': {
-      id: '/_authenticated/habits/$id'
-      path: '/$id'
+    '/_authenticated/habits_/$id': {
+      id: '/_authenticated/habits_/$id'
+      path: '/habits/$id'
       fullPath: '/habits/$id'
       preLoaderRoute: typeof AuthenticatedHabitsIdRouteImport
-      parentRoute: typeof AuthenticatedHabitsRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
-interface AuthenticatedHabitsRouteChildren {
-  AuthenticatedHabitsIdRoute: typeof AuthenticatedHabitsIdRoute
-}
-
-const AuthenticatedHabitsRouteChildren: AuthenticatedHabitsRouteChildren = {
-  AuthenticatedHabitsIdRoute: AuthenticatedHabitsIdRoute,
-}
-
-const AuthenticatedHabitsRouteWithChildren =
-  AuthenticatedHabitsRoute._addFileChildren(AuthenticatedHabitsRouteChildren)
-
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRoute
-  AuthenticatedHabitsRoute: typeof AuthenticatedHabitsRouteWithChildren
+  AuthenticatedHabitsRoute: typeof AuthenticatedHabitsRoute
+  AuthenticatedHabitsIdRoute: typeof AuthenticatedHabitsIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCommunityRoute: AuthenticatedCommunityRoute,
-  AuthenticatedHabitsRoute: AuthenticatedHabitsRouteWithChildren,
+  AuthenticatedHabitsRoute: AuthenticatedHabitsRoute,
+  AuthenticatedHabitsIdRoute: AuthenticatedHabitsIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
