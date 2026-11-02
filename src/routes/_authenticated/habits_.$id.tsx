@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { currentStreak, lastSevenDays } from "@/lib/habit-stats";
 
-export const Route = createFileRoute("/_authenticated/habits/$id")({
+export const Route = createFileRoute("/_authenticated/habits_/$id")({
   head: () => ({
     meta: [
       { title: "Habit — Tally" },
