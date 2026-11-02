@@ -61,7 +61,7 @@ function MyHabits() {
 
   function submit(e: FormEvent) {
     e.preventDefault();
-    if (!name.trim()) return toast.error("Please enter a habit name");
+    if (!name.trim()) { toast.error("Please enter a habit name"); return; }
     add.mutate();
   }
 

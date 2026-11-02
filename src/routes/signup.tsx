@@ -28,7 +28,7 @@ function SignUp() {
 
   async function submit(e: FormEvent) {
     e.preventDefault();
-    if (!name.trim()) return toast.error("Please enter a display name");
+    if (!name.trim()) { toast.error("Please enter a display name"); return; }
     setBusy(true);
     const { data, error } = await supabase.auth.signUp({
       email: email.trim(),
@@ -36,8 +36,8 @@ function SignUp() {
       options: { data: { display_name: name.trim().slice(0, 80) }, emailRedirectTo: window.location.origin },
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
-    if (!data.session) return toast.error("Account created, please sign in.");
+    if (error) { toast.error(error.message); return; }
+    if (!data.session) { toast.error("Account created, please sign in."); return; }
     navigate({ to: "/habits" });
   }
 
